@@ -1,0 +1,10 @@
+.env
+.venv/
+data/
+models/*.pt
+__pycache__/
+*.pyc
+.pytest_cache/
+eval/images/
+eval/output/
+.DS_Store

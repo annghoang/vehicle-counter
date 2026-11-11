@@ -1,0 +1,978 @@
+[
+ {
+  "config": "yolo26m",
+  "maeAll": 6.71,
+  "maeNonDense": 1.0,
+  "maeDense": 21.0,
+  "perClassMAE": {
+   "motorcycle": 5.86,
+   "car": 0.43,
+   "bus": 0.0,
+   "truck": 0.14,
+   "other": 0.29
+  },
+  "latencyMsMean": 342,
+  "latencyMsMax": 430,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 8,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": -1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 11,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 5,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 6,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": -1,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 22,
+    "absErr": 6,
+    "classErr": {
+     "motorcycle": -4,
+     "car": -2,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 28,
+    "absErr": 36,
+    "classErr": {
+     "motorcycle": -36,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   }
+  ]
+ },
+ {
+  "config": "yolo26m-rider",
+  "maeAll": 5.86,
+  "maeNonDense": 0.6,
+  "maeDense": 19.0,
+  "perClassMAE": {
+   "motorcycle": 5.86,
+   "car": 0.43,
+   "bus": 0.0,
+   "truck": 0.14,
+   "other": 0.29
+  },
+  "latencyMsMean": 342,
+  "latencyMsMax": 430,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 10,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 2
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 11,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 8,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": 3,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 3
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 7,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": -1,
+     "other": 0
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 24,
+    "absErr": 4,
+    "classErr": {
+     "motorcycle": -2,
+     "car": -2,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 2
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 30,
+    "absErr": 34,
+    "classErr": {
+     "motorcycle": -34,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 2
+   }
+  ]
+ },
+ {
+  "config": "yolo26m-tiled2x2",
+  "maeAll": 6.29,
+  "maeNonDense": 0.8,
+  "maeDense": 20.0,
+  "perClassMAE": {
+   "motorcycle": 5.57,
+   "car": 0.43,
+   "bus": 0.0,
+   "truck": 0.0,
+   "other": 0.29
+  },
+  "latencyMsMean": 1471,
+  "latencyMsMax": 1807,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 8,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": -1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 11,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 5,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 7,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 22,
+    "absErr": 6,
+    "classErr": {
+     "motorcycle": -4,
+     "car": -2,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 30,
+    "absErr": 34,
+    "classErr": {
+     "motorcycle": -34,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   }
+  ]
+ },
+ {
+  "config": "yolo26m-tiled2x2-rider",
+  "maeAll": 5.0,
+  "maeNonDense": 0.8,
+  "maeDense": 15.5,
+  "perClassMAE": {
+   "motorcycle": 4.86,
+   "car": 0.43,
+   "bus": 0.0,
+   "truck": 0.0,
+   "other": 0.29
+  },
+  "latencyMsMean": 1471,
+  "latencyMsMax": 1807,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 10,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 2
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 11,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 8,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": 3,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 3
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 8,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 23,
+    "absErr": 5,
+    "classErr": {
+     "motorcycle": -3,
+     "car": -2,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 38,
+    "absErr": 26,
+    "classErr": {
+     "motorcycle": -26,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 8
+   }
+  ]
+ },
+ {
+  "config": "yolo26x",
+  "maeAll": 5.29,
+  "maeNonDense": 0.8,
+  "maeDense": 16.5,
+  "perClassMAE": {
+   "motorcycle": 4.86,
+   "car": 0.14,
+   "bus": 0.14,
+   "truck": 0.43,
+   "other": 0.29
+  },
+  "latencyMsMean": 598,
+  "latencyMsMax": 636,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 8,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": -1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 10,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 6,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 5,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 1,
+     "truck": -3,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 26,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": -1,
+     "car": -1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 33,
+    "absErr": 31,
+    "classErr": {
+     "motorcycle": -31,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   }
+  ]
+ },
+ {
+  "config": "yolo26x-rider",
+  "maeAll": 4.0,
+  "maeNonDense": 0.4,
+  "maeDense": 13.0,
+  "perClassMAE": {
+   "motorcycle": 4.14,
+   "car": 0.14,
+   "bus": 0.14,
+   "truck": 0.43,
+   "other": 0.29
+  },
+  "latencyMsMean": 598,
+  "latencyMsMax": 636,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 10,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 2
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 10,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 7,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 2,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 6,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 1,
+     "truck": -3,
+     "other": 0
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 27,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": -1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 39,
+    "absErr": 25,
+    "classErr": {
+     "motorcycle": -25,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 6
+   }
+  ]
+ },
+ {
+  "config": "yolo26x-tiled2x2",
+  "maeAll": 4.43,
+  "maeNonDense": 0.6,
+  "maeDense": 14.0,
+  "perClassMAE": {
+   "motorcycle": 4.14,
+   "car": 0.43,
+   "bus": 0.29,
+   "truck": 0.43,
+   "other": 0.29
+  },
+  "latencyMsMean": 3475,
+  "latencyMsMax": 3749,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 8,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": -1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 11,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 6,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 7,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 2,
+     "truck": -2,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 26,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": -1,
+     "car": -2,
+     "bus": 0,
+     "truck": 1,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 38,
+    "absErr": 26,
+    "classErr": {
+     "motorcycle": -26,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   }
+  ]
+ },
+ {
+  "config": "yolo26x-tiled2x2-rider",
+  "maeAll": 2.43,
+  "maeNonDense": 0.8,
+  "maeDense": 6.5,
+  "perClassMAE": {
+   "motorcycle": 2.43,
+   "car": 0.43,
+   "bus": 0.29,
+   "truck": 0.43,
+   "other": 0.29
+  },
+  "latencyMsMean": 3475,
+  "latencyMsMax": 3749,
+  "rows": [
+   {
+    "file": "6a3fb24771982c61d4cc97f3.jpg",
+    "scene": "sparse",
+    "gtTotal": 10,
+    "predTotal": 10,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 2
+   },
+   {
+    "file": "6a573f301ff88650e9c1a312.jpg",
+    "scene": "medium",
+    "gtTotal": 10,
+    "predTotal": 11,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 1,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a573f531ff88650e9c1a373.jpg",
+    "scene": "medium",
+    "gtTotal": 11,
+    "predTotal": 11,
+    "absErr": 0,
+    "classErr": {
+     "motorcycle": 0,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 0
+   },
+   {
+    "file": "6a57afdb1ff88650e9c279b3.jpg",
+    "scene": "sparse",
+    "gtTotal": 6,
+    "predTotal": 8,
+    "absErr": 2,
+    "classErr": {
+     "motorcycle": 3,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": -1
+    },
+    "fromRider": 2
+   },
+   {
+    "file": "6a57afde1ff88650e9c27b46.jpg",
+    "scene": "trucks",
+    "gtTotal": 7,
+    "predTotal": 8,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 1,
+     "car": 0,
+     "bus": 2,
+     "truck": -2,
+     "other": 0
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "6a59f906333d243ed1f99f33.jpg",
+    "scene": "dense_mixed",
+    "gtTotal": 28,
+    "predTotal": 27,
+    "absErr": 1,
+    "classErr": {
+     "motorcycle": 0,
+     "car": -2,
+     "bus": 0,
+     "truck": 1,
+     "other": 0
+    },
+    "fromRider": 1
+   },
+   {
+    "file": "sample_j196.jpg",
+    "scene": "dense_motorcycle",
+    "gtTotal": 64,
+    "predTotal": 52,
+    "absErr": 12,
+    "classErr": {
+     "motorcycle": -12,
+     "car": 0,
+     "bus": 0,
+     "truck": 0,
+     "other": 0
+    },
+    "fromRider": 14
+   }
+  ]
+ }
+]

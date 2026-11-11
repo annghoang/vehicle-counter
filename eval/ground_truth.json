@@ -1,0 +1,26 @@
+{
+  "protocol": "Đếm tay bằng mắt trên ảnh full-res. Chỉ tính xe có điểm chạm đất (bottom-center) nằm trong ROI lòng đường của từng ảnh (đã loại vỉa hè, xe đỗ trên vỉa hè, làn ngược chiều/xa). Xe máy chở 2 người = 1 xe. Xe ba gác/xe đạp = other. Người đếm: 1 người (AI assistant khi xây MVP) - cần người vận hành kiểm tra lại trước khi dùng làm chuẩn chính thức.",
+  "images": [
+    {"file": "6a3fb24771982c61d4cc97f3.jpg", "scene": "sparse", "roi": [[0,0.27],[1,0.27],[1,1],[0,1]],
+     "counts": {"motorcycle": 6, "car": 3, "bus": 0, "truck": 0, "other": 1}, "uncertainty": 1,
+     "notes": "xe ở (1810,400) có thể là xe đạp hoặc xe máy; đầu người sát mép dưới không tính"},
+    {"file": "6a573f301ff88650e9c1a312.jpg", "scene": "medium", "roi": [[0.385,0.25],[0.66,0.25],[0.98,1.0],[0.27,1.0]],
+     "counts": {"motorcycle": 5, "car": 5, "bus": 0, "truck": 0, "other": 0}, "uncertainty": 1,
+     "notes": "xe máy đỗ trên 2 vỉa hè nằm ngoài ROI"},
+    {"file": "6a573f531ff88650e9c1a373.jpg", "scene": "medium", "roi": [[0.375,0.2],[0.573,0.2],[0.80,1.0],[0.22,1.0]],
+     "counts": {"motorcycle": 8, "car": 2, "bus": 0, "truck": 0, "other": 1}, "uncertainty": 1,
+     "notes": "1 xe đạp dắt bộ giữa đường; xe máy (965,200) sát mép ROI không tính"},
+    {"file": "6a57afdb1ff88650e9c279b3.jpg", "scene": "sparse", "roi": [[0.55,0.15],[0.80,0.15],[1.0,0.55],[1.0,1.0],[0.36,1.0]],
+     "counts": {"motorcycle": 4, "car": 1, "bus": 0, "truck": 0, "other": 1}, "uncertainty": 0,
+     "notes": "other = xe ba gác kéo tay"},
+    {"file": "6a57afde1ff88650e9c27b46.jpg", "scene": "trucks", "roi": [[0.38,0.1],[0.58,0.1],[0.93,0.55],[1.0,0.62],[1.0,1.0],[0.06,1.0]],
+     "counts": {"motorcycle": 1, "car": 1, "bus": 0, "truck": 5, "other": 0}, "uncertainty": 1,
+     "notes": "xe tải lớn che khuất nhau; xe đầu kéo + thùng lồng tính 1"},
+    {"file": "6a59f906333d243ed1f99f33.jpg", "scene": "dense_mixed", "roi": [[0.30,0.25],[0.68,0.25],[1.0,0.62],[1.0,1.0],[0.08,1.0]],
+     "counts": {"motorcycle": 7, "car": 13, "bus": 0, "truck": 7, "other": 1}, "uncertainty": 3,
+     "notes": "3 xe nằm sát mép ROI phía trên/ trái"},
+    {"file": "sample_j196.jpg", "scene": "dense_motorcycle", "roi": [[0.21,0.3],[0.80,0.3],[0.96,0.75],[1.0,0.75],[1.0,1.0],[0.0,1.0],[0.0,0.85],[0.08,0.6]],
+     "counts": {"motorcycle": 52, "car": 12, "bus": 0, "truck": 0, "other": 0}, "uncertainty": 8,
+     "notes": "ảnh mẫu J196 giờ cao điểm; xe máy bị che rất nhiều, số xe máy là ước lượng ±8 (đếm theo cụm người lái)"}
+  ]
+}

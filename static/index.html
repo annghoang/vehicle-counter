@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đếm xe AC</title>
+<style>
+:root{--bg:#0f1418;--panel:#161d23;--line:#26313a;--text:#e3e8ec;--mute:#8b98a3;--acc:#2fb5ff;--ok:#3ccf6e;--warn:#f2b233;--err:#ff5a5a;
+--moto:#ffc800;--car:#3cdc50;--bus:#0078ff;--truck:#c83cc8;--other:#b4b4b4;--queue:#ff8c00;--count:#00ffff}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:10px 16px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}
+header h1{font-size:16px;margin:0}main{display:grid;grid-template-columns:340px 1fr 300px;gap:0;height:calc(100vh - 47px)}
+@media(max-width:1100px){main{grid-template-columns:1fr;height:auto}}
+aside,section{overflow:auto;padding:12px 14px}aside.left{border-right:1px solid var(--line)}aside.right{border-left:1px solid var(--line)}
+label{display:block;font-size:12px;color:var(--mute);margin:10px 0 4px}
+input,select,button{font:inherit;color:var(--text);background:#0c1115;border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+input,select{width:100%}button{cursor:pointer;background:#1d2730}button:hover{border-color:var(--acc)}
+button.primary{background:var(--acc);color:#001018;border-color:var(--acc);font-weight:600}button:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:6px}.row>*{flex:1}
+.list{margin-top:6px;border:1px solid var(--line);border-radius:6px;max-height:46vh;overflow:auto}
+.cam{padding:7px 9px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px}
+.cam:hover{background:#1a232b}.cam.sel{background:#173246;border-left:3px solid var(--acc)}
+.cam small{display:block;color:var(--mute);font-size:11px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.hint{color:var(--mute);font-size:12px}
+.stage{position:relative;background:#000;border:1px solid var(--line);border-radius:6px;min-height:200px}
+canvas{display:block;width:100%;height:auto}
+.empty{padding:60px 20px;text-align:center;color:var(--mute)}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.badge{font-size:11px;padding:2px 8px;border-radius:9px;font-weight:600}
+.b-live{background:#11391f;color:var(--ok)}.b-cached{background:#3a2f10;color:var(--warn)}
+.toggles label{display:inline-flex;gap:4px;align-items:center;margin:0 10px 0 0;color:var(--text)}.toggles input{width:auto}
+.total{font-size:40px;font-weight:700;line-height:1}.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px}.kpi b{font-size:22px;display:block}
+.kpi span{font-size:12px;color:var(--mute)}
+.roi{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px 9px;margin-top:6px;font-size:13px}
+.warn{background:#2b2410;border:1px solid #5c4a14;color:#f6d47c;border-radius:6px;padding:7px 9px;margin-top:6px;font-size:12px}
+.err{background:#2b1313;border:1px solid #6a2020;color:#ffb3b3;border-radius:6px;padding:8px 10px;margin:8px 0}
+.lim{color:var(--mute);font-size:11px;margin-top:10px}.lim li{margin:3px 0}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--mute);border-top-color:var(--acc);border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px}
+@keyframes s{to{transform:rotate(360deg)}}
+.editing canvas{cursor:crosshair}
+</style>
+</head>
+<body>
+<header><h1>Đếm xe từ snapshot camera AC</h1></header>
+<main>
+<aside class="left">
+  <label>Junction (vd 196 hoặc J196)</label>
+  <div class="row"><input id="junction" placeholder="Nhập số junction" inputmode="numeric"><button id="clearJ" style="flex:0 0 auto">×</button></div>
+  <label>Tìm theo tên camera</label>
+  <input id="q" placeholder="vd: Lê Duẩn, -AC-VA">
+  <div class="hint" id="camInfo" style="margin-top:6px">Đang tải danh sách camera AC từ Invipo…</div>
+  <div class="list" id="cams"></div>
+</aside>
+
+<section>
+  <div class="bar">
+    <button class="primary" id="run" disabled>Phân tích snapshot</button>
+    <button id="editRoi" disabled>Vẽ ROI</button>
+    <span id="status" class="hint">Chọn 1 camera AC ở cột trái.</span>
+  </div>
+  <div id="err"></div>
+  <div class="bar toggles" id="toggles" hidden>
+    <label><input type="checkbox" id="tRoi" checked>ROI</label>
+    <label><input type="checkbox" id="tBox" checked>Bounding box</label>
+    <label><input type="checkbox" id="tDot" checked>Chấm xe được đếm</label>
+    <label><input type="checkbox" id="tOut">Xe ngoài ROI</label>
+    <a id="annLink" target="_blank" class="hint" style="margin-left:auto">Ảnh annotate (server) ↗</a>
+  </div>
+  <div id="roiBar" class="bar" hidden>
+    <input id="roiName" placeholder="Tên ROI (vd Hướng VA)" style="width:180px;flex:0 0 auto">
+    <select id="roiType" style="width:150px;flex:0 0 auto"><option value="count">count - vùng đếm</option><option value="queue">queue - vùng hàng chờ</option></select>
+    <button id="roiClose">Đóng polygon</button><button id="roiUndo">Xoá điểm</button>
+    <button id="roiSave" class="primary">Lưu ROI</button><button id="roiCancel">Huỷ</button>
+    <span class="hint">Click lên ảnh để thêm điểm. Đóng polygon rồi thêm ROI khác hoặc Lưu.</span>
+  </div>
+  <div class="stage" id="stage"><div class="empty" id="empty">Chưa có ảnh.</div><canvas id="cv" hidden></canvas></div>
+  <div class="hint" id="legend" style="margin-top:6px">
+    <span class="dot" style="background:var(--moto)"></span>xe máy (* = suy ra từ người lái)
+    <span class="dot" style="background:var(--car);margin-left:10px"></span>ô tô
+    <span class="dot" style="background:var(--bus);margin-left:10px"></span>bus
+    <span class="dot" style="background:var(--truck);margin-left:10px"></span>xe tải
+    <span class="dot" style="background:var(--other);margin-left:10px"></span>khác
+    · Chấm = điểm chạm đất (giữa cạnh dưới bbox), dùng để xét thuộc ROI.
+  </div>
+</section>
+
+<aside class="right">
+  <div id="cameraTitle" class="hint">—</div>
+  <div id="result" hidden>
+    <div style="margin-top:10px" class="hint">Tổng xe trong ROI</div>
+    <div class="total" id="total">0</div>
+    <div class="grid" id="kpis"></div>
+    <div id="rois"></div>
+    <div id="warnings"></div>
+    <div class="hint" id="meta" style="margin-top:10px"></div>
+    <ul class="lim" id="lims"></ul>
+  </div>
+</aside>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const COLORS = {motorcycle:"#ffc800", car:"#3cdc50", bus:"#0078ff", truck:"#c83cc8", other:"#b4b4b4"};
+const NAMES = {motorcycle:"Xe máy", car:"Ô tô", bus:"Bus", truck:"Xe tải", other:"Khác"};
+const ROI_COL = {count:"#00ffff", queue:"#ff8c00"};
+let cams = [], selected = null, result = null, img = null, rois = [], editing = null;
+
+async function api(path, opt) {
+  const r = await fetch(path, opt);
+  const ct = r.headers.get("content-type") || "";
+  const body = ct.includes("json") ? await r.json() : null;
+  if (!r.ok) throw new Error((body && body.detail && (body.detail.error || body.detail)) || `HTTP ${r.status}`);
+  return body;
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtTime = iso => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString("vi-VN", {timeZone:"Asia/Ho_Chi_Minh"}) + " (giờ HN)"; };
+
+// 1. danh sách camera
+async function loadCams() {
+  const j = $("junction").value.trim(), q = $("q").value.trim();
+  const p = new URLSearchParams(); if (j) p.set("junction", j); if (q) p.set("q", q);
+  $("camInfo").innerHTML = '<span class="spin"></span> Đang tải…';
+  try {
+    cams = (await api("/api/cameras?" + p)).items;
+    $("camInfo").textContent = j ? `${cams.length} camera AC tại junction ${j.replace(/\D/g,"")}` : `${cams.length} camera AC`;
+    if (j && !cams.length) $("camInfo").textContent = `Không có camera AC nào gắn với junction ${j}`;
+    renderCams();
+  } catch (e) { $("camInfo").innerHTML = `<span style="color:var(--err)">${esc(e.message)}</span>`; }
+}
+function renderCams() {
+  const reasonTxt = {loads_area:"area Loads", near_controller:"gần tủ", name_code:"mã trong tên"};
+  $("cams").innerHTML = cams.slice(0, 400).map(c => {
+    const js = c.junctions.map(j => `J${j.junction}${j.distanceM!=null?` ${j.distanceM}m`:""} (${reasonTxt[j.reason]||j.reason})`).join(", ");
+    const on = c.status === "Connected";
+    return `<div class="cam ${selected && selected.id===c.id?"sel":""}" data-id="${esc(c.id)}">
+      <span class="dot" style="background:${on?"var(--ok)":"var(--err)"}" title="${esc(c.status)}"></span>${esc(c.name)}
+      <small>${esc(c.model)} · ${esc(js || "chưa gắn junction")}</small></div>`;
+  }).join("") + (cams.length > 400 ? `<div class="cam hint">… lọc thêm để xem ${cams.length-400} camera còn lại</div>` : "");
+}
+$("cams").onclick = e => {
+  const el = e.target.closest(".cam[data-id]"); if (!el) return;
+  selected = cams.find(c => c.id === el.dataset.id); renderCams(); selectCam();
+};
+let t; const deb = () => { clearTimeout(t); t = setTimeout(loadCams, 300); };
+$("junction").oninput = deb; $("q").oninput = deb; $("clearJ").onclick = () => { $("junction").value = ""; loadCams(); };
+
+async function selectCam() {
+  $("run").disabled = false; $("editRoi").disabled = false; $("err").innerHTML = "";
+  $("cameraTitle").innerHTML = `<b style="color:var(--text)">${esc(selected.name)}</b>`;
+  $("status").textContent = "Sẵn sàng. Bấm Phân tích để lấy snapshot và đếm xe.";
+  rois = (await api(`/api/cameras/${camId()}/roi`)).rois;
+  $("status").textContent += rois.length ? ` ROI đã cấu hình: ${rois.length}.` : " Chưa có ROI → đếm toàn khung hình.";
+}
+const camId = () => selected.id;
+
+// 2. phân tích
+$("run").onclick = async () => {
+  $("run").disabled = true; $("err").innerHTML = "";
+  $("status").innerHTML = '<span class="spin"></span> Đang lấy snapshot và chạy AI (vài giây)…';
+  try {
+    result = await api("/api/analyze", {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({cameraId: camId()})});
+    rois = result.roiConfig;
+    img = await loadImg(result.images.source);
+    $("status").textContent = `Xong trong ${(result.timingMs.total/1000).toFixed(1)}s (snapshot ${result.timingMs.snapshot}ms, AI ${result.timingMs.inference}ms).`;
+    $("annLink").href = result.images.annotated; $("toggles").hidden = false;
+    draw(); renderResult();
+  } catch (e) {
+    $("err").innerHTML = `<div class="err"><b>Không phân tích được.</b> ${esc(e.message)}</div>`;
+    $("status").textContent = "Lỗi.";
+  } finally { $("run").disabled = false; }
+};
+const loadImg = src => new Promise((ok, bad) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => bad(new Error("Không tải được ảnh")); i.src = src; });
+
+function renderResult() {
+  const c = result.counts, s = result.snapshot;
+  $("result").hidden = false; $("total").textContent = c.total;
+  $("kpis").innerHTML = Object.keys(NAMES).map(k => `<div class="kpi" style="border-left:3px solid ${COLORS[k]}"><b>${c.byClass[k]}</b><span>${NAMES[k]}</span></div>`).join("");
+  $("rois").innerHTML = c.roiMode === "full_frame" ? `<div class="roi hint">Chưa cấu hình ROI: đang đếm toàn khung hình (gồm cả vỉa hè, xe đỗ). Bấm "Vẽ ROI" để giới hạn vùng.</div>` :
+    c.rois.map(r => `<div class="roi"><span class="dot" style="background:${ROI_COL[r.type]}"></span><b>${esc(r.name)}</b> <span class="hint">${r.type==="queue"?"xe trong vùng hàng chờ":"vùng đếm"}</span><br>
+      ${r.total} xe · ${Object.keys(NAMES).filter(k=>r.byClass[k]).map(k=>`${NAMES[k]} ${r.byClass[k]}`).join(", ") || "—"}</div>`).join("");
+  const badge = {vms_live:'<span class="badge b-live">LIVE · VMS</span>', invipo_cached:'<span class="badge b-cached">ẢNH CACHE INVIPO</span>'}[s.source];
+  $("warnings").innerHTML = result.warnings.map(w => `<div class="warn">⚠ ${esc(w.message)}</div>`).join("");
+  $("meta").innerHTML = `${badge}<br>Thời điểm ảnh: <b style="color:var(--text)">${esc(fmtTime(s.timestamp))}</b><br>
+    Ảnh ${s.width}×${s.height} · camera <code>${esc(result.cameraId)}</code><br>
+    ${c.motorcycleFromRider ? `${c.motorcycleFromRider} xe máy suy ra từ người lái (xe bị che) · ` : ""}${c.outsideRoi} xe ngoài ROI<br>
+    Model ${esc(result.model.weights)} · imgsz ${result.model.imgsz}${result.model.tiled?` · tile ${result.model.tileGrid}`:""}`;
+  $("lims").innerHTML = result.limitations.map(l => `<li>${esc(l)}</li>`).join("");
+}
+
+// 3. vẽ canvas
+function draw() {
+  const cv = $("cv"), ctx = cv.getContext("2d");
+  if (!img) return;
+  cv.width = img.naturalWidth; cv.height = img.naturalHeight; cv.hidden = false; $("empty").hidden = true;
+  const W = cv.width, H = cv.height, s = Math.max(1, W / 1920);
+  ctx.drawImage(img, 0, 0);
+  const list = editing ? editing.rois : rois;
+  if ($("tRoi").checked || editing) for (const r of list) poly(ctx, r.polygon, ROI_COL[r.type] || "#0ff", r.name, W, H, s, true);
+  if (editing && editing.pts.length) {
+    poly(ctx, editing.pts, "#fff", "", W, H, s, false);
+    for (const p of editing.pts) { ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(p[0]*W, p[1]*H, 5*s, 0, 7); ctx.fill(); }
+  }
+  if (!result || editing) return;
+  for (const d of result.detections) {
+    const inside = d.rois.length > 0;
+    if (!inside && !$("tOut").checked) continue;
+    const col = inside ? COLORS[d.class] : "#777";
+    const [x1, y1, x2, y2] = [d.box[0]*W, d.box[1]*H, d.box[2]*W, d.box[3]*H];
+    if ($("tBox").checked) {
+      ctx.strokeStyle = col; ctx.lineWidth = (inside ? 2 : 1) * s; ctx.setLineDash(d.rawClass === "motorcycle_rider" ? [6*s, 4*s] : []);
+      ctx.strokeRect(x1, y1, x2 - x1, y2 - y1); ctx.setLineDash([]);
+      if (inside) { const t = `${NAMES[d.class]}${d.rawClass==="motorcycle_rider"?"*":""} ${d.conf.toFixed(2)}`;
+        ctx.font = `${12*s}px system-ui`; const tw = ctx.measureText(t).width;
+        ctx.fillStyle = col; ctx.fillRect(x1, y1 - 15*s, tw + 6*s, 15*s); ctx.fillStyle = "#000"; ctx.fillText(t, x1 + 3*s, y1 - 3*s); }
+    }
+    if ($("tDot").checked && inside) {
+      ctx.fillStyle = "#000"; ctx.beginPath(); ctx.arc(d.anchor[0]*W, d.anchor[1]*H, 7*s, 0, 7); ctx.fill();
+      ctx.fillStyle = col; ctx.beginPath(); ctx.arc(d.anchor[0]*W, d.anchor[1]*H, 5*s, 0, 7); ctx.fill();
+    }
+  }
+}
+function poly(ctx, pts, col, name, W, H, s, closed) {
+  ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0]*W, p[1]*H) : ctx.moveTo(p[0]*W, p[1]*H));
+  if (closed) { ctx.closePath(); ctx.fillStyle = col + "22"; ctx.fill(); }
+  ctx.strokeStyle = col; ctx.lineWidth = 3*s; ctx.stroke();
+  if (name) { ctx.font = `bold ${18*s}px system-ui`; ctx.fillStyle = col;
+    const x = Math.min(...pts.map(p=>p[0]))*W + 8*s, y = Math.min(...pts.map(p=>p[1]))*H + 24*s; ctx.fillText(name, x, y); }
+}
+["tRoi","tBox","tDot","tOut"].forEach(id => $(id).onchange = draw);
+
+// 4. vẽ ROI
+$("editRoi").onclick = async () => {
+  $("err").innerHTML = "";
+  if (!img || (result && result.cameraId !== camId())) {
+    $("status").innerHTML = '<span class="spin"></span> Lấy snapshot để vẽ ROI…';
+    try {
+      img = await loadImg(`/api/cameras/${camId()}/snapshot?t=${Date.now()}`); result = null;
+    } catch (e) { $("err").innerHTML = `<div class="err">Không lấy được ảnh để vẽ ROI: ${esc(e.message)}</div>`; $("status").textContent = ""; return; }
+  }
+  editing = {rois: JSON.parse(JSON.stringify(rois)), pts: []};
+  $("roiBar").hidden = false; $("stage").classList.add("editing"); $("status").textContent = "Đang vẽ ROI.";
+  draw();
+};
+$("cv").onclick = e => {
+  if (!editing) return;
+  const r = $("cv").getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+  editing.pts.push([+Math.min(1, Math.max(0, x)).toFixed(4), +Math.min(1, Math.max(0, y)).toFixed(4)]); draw();
+};
+$("roiUndo").onclick = () => { if (!editing) return; if (editing.pts.length) editing.pts.pop(); else editing.rois.pop(); draw(); };
+$("roiClose").onclick = () => {
+  if (editing.pts.length < 3) { alert("Cần ít nhất 3 điểm"); return; }
+  const n = editing.rois.length + 1;
+  editing.rois.push({id: "roi" + Date.now().toString(36), name: $("roiName").value.trim() || `ROI ${n}`, type: $("roiType").value, polygon: editing.pts});
+  editing.pts = []; $("roiName").value = ""; draw();
+};
+$("roiCancel").onclick = () => { editing = null; $("roiBar").hidden = true; $("stage").classList.remove("editing"); draw(); $("status").textContent = ""; };
+$("roiSave").onclick = async () => {
+  if (editing.pts.length >= 3) $("roiClose").onclick();
+  try {
+    rois = (await api(`/api/cameras/${camId()}/roi`, {method:"PUT", headers:{"Content-Type":"application/json"}, body: JSON.stringify({rois: editing.rois})})).rois;
+    $("roiCancel").onclick(); $("status").textContent = `Đã lưu ${rois.length} ROI. Bấm Phân tích để đếm lại.`;
+  } catch (e) { $("err").innerHTML = `<div class="err">Lưu ROI lỗi: ${esc(e.message)}</div>`; }
+};
+
+// 5. khởi tạo
+(async () => {
+  const pj = new URLSearchParams(location.search).get("junction"); if (pj) $("junction").value = pj;
+  loadCams();
+})();
+</script>
+</body>
+</html>
